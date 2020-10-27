@@ -26,8 +26,8 @@ public class Config {
     @Bean("threadPoolTaskExecutor")
     public ThreadPoolTaskExecutor threadPoolTaskExecutor(){
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setMaxPoolSize(4);
-        threadPoolTaskExecutor.setCorePoolSize(4);
+        threadPoolTaskExecutor.setMaxPoolSize(10);
+        threadPoolTaskExecutor.setCorePoolSize(10);
         return threadPoolTaskExecutor;
     }
 }

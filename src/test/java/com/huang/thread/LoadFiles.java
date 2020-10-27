@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author DaTou
- * @Description 任务描述:解析文件,使用Spring的线程池读取多个文件
+ * @Description 任务描述:解析文件,使用Spring的线程池读取多个文件,每个线程读取一个文件
  * @Date 2020/10/27
  **/
 @SpringBootTest
@@ -30,7 +30,12 @@ public class LoadFiles {
     public void load(){
         String filePath = "";
         List<String> fileAllPath = readFilePath(filePath);
+        /**
+         * 执行线程的方法 new DataLoad("") 构造传入单个文件路径?如果把集合的所有文件路径放入线程中
+         * 注意:我们要的是一个线程处理一个文件
+         */
 
+        threadPoolExecutor.execute(new DataLoad(""));
     }
 
     public List<String> readFilePath(String filePath){
