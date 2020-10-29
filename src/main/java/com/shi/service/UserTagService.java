@@ -22,13 +22,14 @@ public class UserTagService {
     private UserTagMapper userTagMapper;
 
     @Async("threadPoolTaskExecutor")
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void findAll(){
         log.debug("time sleep begin : 2000s");
         try {
             TimeUnit.SECONDS.sleep(2000);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("sleep interrupted",e);
+            Thread.currentThread().interrupt();
         }
         log.debug("time sleep over!");
     }
