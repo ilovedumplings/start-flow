@@ -50,18 +50,19 @@ public class HoldingSeatImpl implements HoldingSeatInterface {
 
     public static void main(String[] args) {
         RestTemplate restTemplate = new RestTemplate();
+        //first request to login page
         ResponseEntity responseEntity = restTemplate.exchange(LoginUrl,HttpMethod.GET,null,String.class);
-        System.out.println(responseEntity);
-        //JSESSIONID=98Zzkb39_SFeSy6eZYjCipC6iagQUZ_tTaDYSEc0Mw10IdyVQLo3!-1319044430; path=/; HttpOnly
         String jSessionId = responseEntity.getHeaders().get("Set-Cookie").get(0).split(";")[0];
-        Cookie cookie = new Cookie("JSESSIONID",jSessionId);
+
         MultiValueMap multiValueMap = buildLoginFormMsg(responseEntity.getBody().toString());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         httpHeaders.set(HttpHeaders.COOKIE,jSessionId);
         httpHeaders.set(HttpHeaders.COOKIE,"org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE=zh_CN");
+
         HttpEntity<MultiValueMap> mapHttpEntity = new HttpEntity<>(multiValueMap,httpHeaders);
         ResponseEntity<String> content = restTemplate.postForEntity(LoginUrl,mapHttpEntity,String.class);
+        content.getHeaders().get("Location");
         System.out.println(content);
     }
 
@@ -99,7 +100,6 @@ public class HoldingSeatImpl implements HoldingSeatInterface {
             map.add("execution",execution);
             map.add("_eventId",_eventId);
             map.add("rmShown",rmShown);
-
         return map;
     }
 
